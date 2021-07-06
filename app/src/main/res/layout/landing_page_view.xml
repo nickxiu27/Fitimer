@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?><!-- fragment_screen_slide_page.xml -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground">
+
+    <TextView
+        android:id="@+id/landing_page_text"
+        style="?android:textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="117dp"
+        android:fontFamily="@font/digital_7"
+        android:lineSpacingMultiplier="1.2"
+        android:padding="16dp"
+        android:text="I need a"
+        android:textColor="@color/colorSecondary"
+        android:textSize="100dp" />
+
+    <TextView
+        android:id="@+id/landing_page_timer_button"
+        style="?android:textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/landing_page_text"
+        android:fontFamily="@font/digital_7"
+        android:lineSpacingMultiplier="1.2"
+        android:padding="16dp"
+        android:text="Simple Timer"
+        android:textColor="@color/colorPrimary"
+        android:textSize="50dp" />
+
+    <TextView
+        android:id="@+id/landing_page_fit_timer_button"
+        style="?android:textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/landing_page_timer_button"
+        android:fontFamily="@font/digital_7"
+        android:lineSpacingMultiplier="1.2"
+        android:padding="16dp"
+        android:text="Fit Timer"
+        android:textColor="@color/colorPrimary"
+        android:textSize="50dp" />
+</RelativeLayout>

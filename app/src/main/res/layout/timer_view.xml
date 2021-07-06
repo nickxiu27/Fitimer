@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/timer_view"
+    android:orientation="vertical"
+    android:background="@color/colorBackground"
+    android:foreground="@drawable/fullscreen_ripple"
+    android:clickable="true"
+    android:focusable="true"
+    android:weightSum="2">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/minute_text_view"
+        android:text="@string/timer_place_holder"
+        app:autoSizeMaxTextSize="320sp"
+        app:autoSizeMinTextSize="5sp"
+        android:fontFamily="@font/segment_7"
+        app:autoSizeTextType="uniform"
+        android:gravity="center"
+        android:layout_weight="1"
+        android:layout_marginBottom="-100dp"
+        android:textColor="@color/colorPrimary"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/second_text_view"
+        android:text="@string/timer_place_holder"
+        app:autoSizeMaxTextSize="320sp"
+        app:autoSizeMinTextSize="5sp"
+        android:fontFamily="@font/segment_7"
+        app:autoSizeTextType="uniform"
+        android:gravity="center"
+        android:layout_weight="1"
+        android:layout_marginBottom="-30dp"
+        android:textColor="@color/colorPrimary"/>
+
+</LinearLayout>
