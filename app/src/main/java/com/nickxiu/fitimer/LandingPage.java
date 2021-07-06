@@ -2,13 +2,11 @@ package com.nickxiu.fitimer;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.PopupMenu;
 
 public class LandingPage extends Fragment {
     private static final String TAG = "LandingPage";

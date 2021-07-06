@@ -1,13 +1,9 @@
 package com.nickxiu.fitimer;
 
-import android.content.res.TypedArray;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -30,10 +26,10 @@ public class TimerImpl extends Fragment implements BaseTimerInterface {
 
     // The starting point of a running segment.
     private long startingTimestamp = 0;
-    // If pauses happened, this is the actual starting point, summing up previous running segments.
+    // If pauses happen, this is the actual starting point, summing up previous running segments.
     private long cumulativeStartingTime = 0;
-    // This keeps track of the total time of all running segments.
-    private long cumulativeRunningTime = 0;
+    // This keeps track of the total time of all previous time-running segments.
+    private long cumulativeElapsedTime = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,7 +49,7 @@ public class TimerImpl extends Fragment implements BaseTimerInterface {
         isRunning = true;
         timer = new Timer();
         startingTimestamp = System.currentTimeMillis();
-        cumulativeStartingTime = startingTimestamp - cumulativeRunningTime;
+        cumulativeStartingTime = startingTimestamp - cumulativeElapsedTime;
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -69,7 +65,7 @@ public class TimerImpl extends Fragment implements BaseTimerInterface {
     public void pause() {
         Log.i(TAG, "pause");
         isRunning = false;
-        cumulativeRunningTime += System.currentTimeMillis() - startingTimestamp;
+        cumulativeElapsedTime += System.currentTimeMillis() - startingTimestamp;
         timer.cancel();
     }
 
@@ -80,7 +76,7 @@ public class TimerImpl extends Fragment implements BaseTimerInterface {
         timer.cancel();
         currentTextViewSeconds = 0;
         cumulativeStartingTime = 0;
-        cumulativeRunningTime = 0;
+        cumulativeElapsedTime = 0;
         setTextView();
     }
 
@@ -108,29 +104,5 @@ public class TimerImpl extends Fragment implements BaseTimerInterface {
                 return true;
             }
         });
-
-//        int[] attrs = new int[]{R.attr.selectableItemBackground};
-//        TypedArray typedArray = getActivity().obtainStyledAttributes(attrs);
-//        int backgroundResource = typedArray.getResourceId(0, 0);
-//        viewGroup.setBackgroundResource(backgroundResource);
-//        viewGroup.setFocusable(true);
-
-//        viewGroup.setOnTouchListener(new View.OnTouchListener() {
-//            public boolean onTouch(View v, MotionEvent event) {
-//                switch (event.getAction()) {
-//                    case MotionEvent.ACTION_DOWN: {
-//                        v.getBackground().setColorFilter(0xe0f47521, PorterDuff.Mode.SRC_ATOP);
-//                        v.invalidate();
-//                        break;
-//                    }
-//                    case MotionEvent.ACTION_UP: {
-//                        v.getBackground().clearColorFilter();
-//                        v.invalidate();
-//                        break;
-//                    }
-//                }
-//                return false;
-//            }
-//        });
     }
 }
