@@ -22,15 +22,6 @@ public class MainActivity extends AppCompatActivity implements LandingPage.OnCli
         setWindowManagerFlags();
         toast = Toast.makeText(this, "", Toast.LENGTH_SHORT);
 
-        // FrameLayout mainContainer = findViewById(R.id.main_container);
-        // View.inflate(this, R.layout.timer_view, (ViewGroup) findViewById(R.id.main_container));
-        // View.inflate(this, R.layout.activity_screen_slide, (ViewGroup) findViewById(R.id.main_container));
-        // View.inflate(this, R.layout.slide_page_1, (ViewGroup) findViewById(R.id.main_container));
-        // View.inflate(this, R.layout.slide_page_2, (ViewGroup) findViewById(R.id.main_container));
-        // new TimerImpl(this, findViewById(R.id.timer_view));
-        // Removing nav bar according to new design
-        // View.inflate(this, R.layout.nav_bar, (ViewGroup) findViewById(R.id.nav_bar_container));
-
         viewPager = findViewById(R.id.view_pager);
 
         // Create an adapter that
@@ -48,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements LandingPage.OnCli
 
             @Override
             public void onPageSelected(int position) {
-                Log.i(TAG, String.format("get item: %d", position));
+                Log.i(TAG, String.format("get page: %d", position));
                 toast.setText(adapter.getPageTitle(position));
                 toast.show();
             }
@@ -63,8 +54,11 @@ public class MainActivity extends AppCompatActivity implements LandingPage.OnCli
         Log.i(TAG, "onAttachFragment");
         if (fragment instanceof LandingPage) {
             LandingPage landingPage = (LandingPage) fragment;
-            landingPage.setContext(this);
             landingPage.setOnClickListener(this);
+        }
+        if (fragment instanceof FitTimerImpl) {
+            FitTimerImpl fitTimerImpl = (FitTimerImpl) fragment;
+            fitTimerImpl.setContext(this);
         }
     }
 

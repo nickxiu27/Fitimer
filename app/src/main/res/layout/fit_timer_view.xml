@@ -1,38 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/timer_view"
+    android:id="@+id/fit_timer_view"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorBackground"
-    android:orientation="vertical"
-    android:weightSum="2">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/minute_text_view"
+    <LinearLayout
+        android:id="@+id/fit_timer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="-100dp"
-        android:layout_weight="1"
-        android:fontFamily="@font/segment_7"
-        android:gravity="center"
-        android:text="@string/fit_timer_place_holder"
-        android:textColor="@color/colorPrimary"
-        app:autoSizeMaxTextSize="320sp"
-        app:autoSizeMinTextSize="5sp"
-        app:autoSizeTextType="uniform" />
+        android:background="@color/colorBackground"
+        android:orientation="vertical"
+        android:weightSum="2">
+
+        <TextView
+            android:id="@+id/minute_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="-100dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/segment_7"
+            android:gravity="center"
+            android:text="@string/fit_timer_work_place_holder"
+            android:textColor="@color/colorPrimary"
+            app:autoSizeMaxTextSize="320sp"
+            app:autoSizeMinTextSize="5sp"
+            app:autoSizeTextType="uniform" />
+
+        <TextView
+            android:id="@+id/second_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="-30dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/segment_7"
+            android:gravity="center"
+            android:text="@string/fit_timer_rest_place_holder"
+            android:textColor="@color/colorPrimary"
+            app:autoSizeMaxTextSize="320sp"
+            app:autoSizeMinTextSize="5sp"
+            app:autoSizeTextType="uniform" />
+    </LinearLayout>
 
     <TextView
-        android:id="@+id/second_text_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="-30dp"
-        android:layout_weight="1"
-        android:fontFamily="@font/segment_7"
-        android:gravity="center"
-        android:text="@string/fit_timer_place_holder"
-        android:textColor="@color/colorPrimary"
-        app:autoSizeMaxTextSize="320sp"
-        app:autoSizeMinTextSize="5sp"
-        app:autoSizeTextType="uniform" />
-</LinearLayout>
+        android:id="@+id/title_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:fontFamily="@font/digital_7"
+        android:text="@string/fit_timer_title"
+        android:textColor="@color/colorSetup"
+        android:textSize="50sp"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/start_button_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="600dp"
+        android:fontFamily="@font/digital_7"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/fit_timer_start"
+        android:textColor="@color/colorSetup"
+        android:textSize="50sp"
+        android:visibility="gone"/>
+</FrameLayout>

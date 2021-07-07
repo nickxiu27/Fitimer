@@ -1,7 +1,10 @@
 <resources>
     <string name="app_name">Fitimer</string>
     <string name="timer_place_holder">00</string>
-    <string name="fit_timer_place_holder">88</string>
+    <string name="fit_timer_title">Fit Timer Setup</string>
+    <string name="fit_timer_start">Start</string>
+    <string name="fit_timer_work_place_holder">05</string>
+    <string name="fit_timer_rest_place_holder">01</string>
     <string name="timer_menu_item">Timer</string>
     <string name="fit_timer_menu_item">Fit Timer</string>
 </resources>

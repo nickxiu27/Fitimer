@@ -13,11 +13,6 @@ public class LandingPage extends Fragment {
 
     private ViewGroup viewGroup;
     private OnClickListener callback;
-    private Context context;
-
-    public void setContext(Context context) {
-        this.context = context;
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
