@@ -1,19 +1,18 @@
 package com.nickxiu.fitimer;
 
-import android.animation.ArgbEvaluator;
-import android.animation.ValueAnimator;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.os.Bundle;
-
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import java.util.Locale;
 import java.util.Timer;
@@ -25,6 +24,7 @@ import static android.view.MotionEvent.ACTION_MOVE;
 public class FitTimerImpl extends Fragment implements BaseTimerInterface {
     private static final String TAG = "FitTimerImpl";
     private static final int UNIT = 60;
+    private static final int FAST_FORWARD_RATIO = 10;
 
     private Context context;
     private ViewGroup viewGroup;
@@ -32,11 +32,15 @@ public class FitTimerImpl extends Fragment implements BaseTimerInterface {
     private TextView secondTextView;
     private TextView titleTextView;
     private TextView startTextView;
+    private TextView workTextView;
+    private TextView restTextView;
 
-    private boolean isSetup = false;
+    private boolean isSetup = true;
     private boolean isRunning = false;
-    private int totalTimeSeconds = 5;
-    private int currentTextViewSeconds = 5;
+    private boolean isWorkTimer = false;
+    private int workTimeSeconds = 0;
+    private int restTimeSeconds = 0;
+    private int currentTextViewSeconds = 0;
     private Timer timer;
 
     // The starting point of a running segment.
@@ -56,6 +60,12 @@ public class FitTimerImpl extends Fragment implements BaseTimerInterface {
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         viewGroup = (ViewGroup) inflater.inflate(
@@ -64,8 +74,10 @@ public class FitTimerImpl extends Fragment implements BaseTimerInterface {
         secondTextView = viewGroup.findViewById(R.id.second_text_view);
         titleTextView = viewGroup.findViewById(R.id.title_text_view);
         startTextView = viewGroup.findViewById(R.id.start_button_text_view);
+        workTextView = viewGroup.findViewById(R.id.work_text_view);
+        restTextView = viewGroup.findViewById(R.id.rest_text_view);
 
-        linkRunningPageEventTrackers();
+        linkSetupPageEventTrackers();
         return viewGroup;
     }
 
@@ -79,14 +91,14 @@ public class FitTimerImpl extends Fragment implements BaseTimerInterface {
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                if ((System.currentTimeMillis() - cumulativeStartingTime) / 1000 > totalTimeSeconds - currentTextViewSeconds) {
+                if ((System.currentTimeMillis() - cumulativeStartingTime) / 1000 * FAST_FORWARD_RATIO > workTimeSeconds - currentTextViewSeconds) {
                     if (currentTextViewSeconds <= 0) {
-                        endTimer();
+                        swtichTimer();
                     } else {
                         currentTextViewSeconds--;
                     }
-                    setTextView();
                 }
+                setTextView();
             }
         }, 0, 50);
     }
@@ -96,48 +108,56 @@ public class FitTimerImpl extends Fragment implements BaseTimerInterface {
         Log.i(TAG, "pause");
         isRunning = false;
         cumulativeElapsedTime += System.currentTimeMillis() - startingTimestamp;
-        timer.cancel();
+        if (timer != null) {
+            timer.cancel();
+        }
     }
 
     @Override
     public void reset() {
         Log.i(TAG, "reset");
         isRunning = false;
-        totalTimeSeconds = Integer.parseInt((String) minuteTextView.getText())*UNIT;
-        currentTextViewSeconds = Integer.parseInt((String) minuteTextView.getText())*UNIT;
+        workTimeSeconds = Integer.parseInt((String) minuteTextView.getText()) * UNIT;
+        restTimeSeconds = Integer.parseInt((String) secondTextView.getText()) * UNIT;
         cumulativeStartingTime = 0;
         cumulativeElapsedTime = 0;
+
+        setWorkTimer();
+    }
+
+    private void setWorkTimer() {
+        currentTextViewSeconds = workTimeSeconds;
         setTextView();
+        isWorkTimer = true;
     }
 
-    private void endTimer() {
-        Log.i(TAG, "end");
-        isRunning = false;
-        timer.cancel();
+    private void setRestTimer() {
+        currentTextViewSeconds = restTimeSeconds;
+        setTextView();
+        isWorkTimer = false;
     }
 
-    // TODO: move the numbers properly during the animation.
+    private void swtichTimer() {
+        pause();
+        if (isWorkTimer) {
+            setRestTimer();
+        } else {
+            setWorkTimer();
+        }
+        start();
+    }
+
+    // TODO: make the x and y movements by dp rather than px.
     // TODO: maybe refactor.
     private void animateToRunning() {
         unlinkSetupEventTrackers();
         titleTextView.setVisibility(View.GONE);
         startTextView.setVisibility(View.GONE);
+        workTextView.setVisibility(View.GONE);
+        restTextView.setVisibility(View.GONE);
 
-        int colorFrom = ContextCompat.getColor(this.context, R.color.colorSetup);
-        int colorTo = ContextCompat.getColor(this.context, R.color.colorPrimary);
-        ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
-        colorAnimation.setDuration(500);
-        colorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animator) {
-                minuteTextView.setTextColor((int) animator.getAnimatedValue());
-                secondTextView.setTextColor((int) animator.getAnimatedValue());
-            }
-        });
-        colorAnimation.start();
-
-        minuteTextView.animate().scaleX(1f).scaleY(1f).setDuration(500).start();
-        secondTextView.animate().scaleX(1f).scaleY(1f).translationYBy(400f).setDuration(500).start();
+        minuteTextView.animate().scaleX(2f).scaleY(2f).translationXBy(-250f).translationYBy(-125f).setDuration(500).start();
+        secondTextView.animate().scaleX(2f).scaleY(2f).translationXBy(-250f).translationYBy(210f).setDuration(500).setListener(null).start();
 
         isSetup = false;
 
@@ -145,28 +165,23 @@ public class FitTimerImpl extends Fragment implements BaseTimerInterface {
         start();
     }
 
-    // TODO: move the numbers properly during the animation.
+    // TODO: make the x and y movements by dp rather than px.
     // TODO: maybe refactor.
     private void animateToSetup() {
         unlinkRunningPageEventTrackers();
 
-        int colorFrom = ContextCompat.getColor(this.context, R.color.colorPrimary);
-        int colorTo = ContextCompat.getColor(this.context, R.color.colorSetup);
-        ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
-        colorAnimation.setDuration(500);
-        colorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animator) {
-                minuteTextView.setTextColor((int) animator.getAnimatedValue());
-                secondTextView.setTextColor((int) animator.getAnimatedValue());
-            }
-        });
-        colorAnimation.start();
+        minuteTextView.animate().scaleX(1f).scaleY(1f).translationXBy(250f).translationYBy(125f).start();
+        secondTextView.animate().scaleX(1f).scaleY(1f).translationXBy(250f).translationYBy(-210f).setDuration(500)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        titleTextView.setVisibility(View.VISIBLE);
+                        startTextView.setVisibility(View.VISIBLE);
+                        workTextView.setVisibility(View.VISIBLE);
+                        restTextView.setVisibility(View.VISIBLE);
+                    }
+                }).start();
 
-        minuteTextView.animate().scaleX(0.5f).scaleY(0.5f).setDuration(500).start();
-        secondTextView.animate().scaleX(0.5f).scaleY(0.5f).translationYBy(-400f).setDuration(500).start();
-        titleTextView.setVisibility(View.VISIBLE);
-        startTextView.setVisibility(View.VISIBLE);
 
         linkSetupPageEventTrackers();
 
@@ -174,8 +189,14 @@ public class FitTimerImpl extends Fragment implements BaseTimerInterface {
     }
 
     private void setTextView() {
-        secondTextView.setText(String.format(Locale.US, "%02d", currentTextViewSeconds % UNIT));
-        minuteTextView.setText(String.format(Locale.US, "%02d", currentTextViewSeconds / UNIT % UNIT));
+        // View changes must run on UI thread.
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                secondTextView.setText(String.format(Locale.US, "%02d", currentTextViewSeconds % UNIT));
+                minuteTextView.setText(String.format(Locale.US, "%02d", currentTextViewSeconds / UNIT % UNIT));
+            }
+        });
     }
 
     private void linkRunningPageEventTrackers() {

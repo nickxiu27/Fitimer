@@ -1,6 +1,8 @@
 package com.nickxiu.fitimer;
 
 import android.os.Bundle;
+
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -30,6 +32,12 @@ public class TimerImpl extends Fragment implements BaseTimerInterface {
     private long cumulativeStartingTime = 0;
     // This keeps track of the total time of all previous time-running segments.
     private long cumulativeElapsedTime = 0;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -66,14 +74,18 @@ public class TimerImpl extends Fragment implements BaseTimerInterface {
         Log.i(TAG, "pause");
         isRunning = false;
         cumulativeElapsedTime += System.currentTimeMillis() - startingTimestamp;
-        timer.cancel();
+        if (timer != null) {
+            timer.cancel();
+        }
     }
 
     @Override
     public void reset() {
         Log.i(TAG, "reset");
         isRunning = false;
-        timer.cancel();
+        if (timer != null) {
+            timer.cancel();
+        }
         currentTextViewSeconds = 0;
         cumulativeStartingTime = 0;
         cumulativeElapsedTime = 0;

@@ -11,36 +11,29 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorBackground"
-        android:orientation="vertical"
-        android:weightSum="2">
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/minute_text_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="-100dp"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="200dp"
+            android:layout_marginLeft="200dp"
             android:fontFamily="@font/segment_7"
-            android:gravity="center"
             android:text="@string/fit_timer_work_place_holder"
             android:textColor="@color/colorPrimary"
-            app:autoSizeMaxTextSize="320sp"
-            app:autoSizeMinTextSize="5sp"
-            app:autoSizeTextType="uniform" />
+            android:textSize="160sp"/>
 
         <TextView
             android:id="@+id/second_text_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="-30dp"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:layout_marginLeft="200dp"
             android:fontFamily="@font/segment_7"
-            android:gravity="center"
             android:text="@string/fit_timer_rest_place_holder"
             android:textColor="@color/colorPrimary"
-            app:autoSizeMaxTextSize="320sp"
-            app:autoSizeMinTextSize="5sp"
-            app:autoSizeTextType="uniform" />
+            android:textSize="160sp"/>
     </LinearLayout>
 
     <TextView
@@ -52,18 +45,38 @@
         android:fontFamily="@font/digital_7"
         android:text="@string/fit_timer_title"
         android:textColor="@color/colorSetup"
-        android:textSize="50sp"
-        android:visibility="gone"/>
+        android:textSize="50sp"/>
+
+    <TextView
+        android:id="@+id/work_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="200dp"
+        android:layout_marginLeft="20dp"
+        android:fontFamily="@font/digital_7"
+        android:text="@string/fit_timer_work"
+        android:textColor="@color/colorSetup"
+        android:textSize="50sp"/>
+
+    <TextView
+        android:id="@+id/rest_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="400dp"
+        android:layout_marginLeft="20dp"
+        android:fontFamily="@font/digital_7"
+        android:text="@string/fit_timer_rest"
+        android:textColor="@color/colorSetup"
+        android:textSize="50sp"/>
 
     <TextView
         android:id="@+id/start_button_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="600dp"
+        android:layout_marginTop="650dp"
         android:fontFamily="@font/digital_7"
         android:layout_gravity="center_horizontal"
         android:text="@string/fit_timer_start"
         android:textColor="@color/colorSetup"
-        android:textSize="50sp"
-        android:visibility="gone"/>
+        android:textSize="50sp"/>
 </FrameLayout>

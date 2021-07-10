@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements LandingPage.OnClickListener {
     private static final String TAG = "MainActivity";
+    private static final int MAX_PAGES = 3;
 
     private TimerFragmentPagerAdapter adapter;
     private ViewPager viewPager;
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity implements LandingPage.OnCli
         toast = Toast.makeText(this, "", Toast.LENGTH_SHORT);
 
         viewPager = findViewById(R.id.view_pager);
+        viewPager.setOffscreenPageLimit(MAX_PAGES);
 
         // Create an adapter that
         // knows which fragment should
