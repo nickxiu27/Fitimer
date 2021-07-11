@@ -60,7 +60,6 @@ public class MainActivity extends AppCompatActivity implements LandingPage.OnCli
         }
         if (fragment instanceof FitTimerImpl) {
             FitTimerImpl fitTimerImpl = (FitTimerImpl) fragment;
-            fitTimerImpl.setContext(this);
         }
     }
 

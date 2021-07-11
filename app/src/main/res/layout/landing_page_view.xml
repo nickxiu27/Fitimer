@@ -14,7 +14,7 @@
         android:lineSpacingMultiplier="1.2"
         android:padding="16dp"
         android:text="I need a"
-        android:textColor="@color/colorSetup"
+        android:textColor="@color/colorAccent"
         android:textSize="100dp" />
 
     <TextView

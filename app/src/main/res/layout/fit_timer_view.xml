@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/fit_timer_view"
@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorBackground"
+        android:foreground="@drawable/fullscreen_ripple"
         android:orientation="vertical">
 
         <TextView
@@ -40,11 +41,12 @@
         android:id="@+id/title_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="50dp"
         android:layout_marginLeft="20dp"
+        android:layout_alignParentTop="true"
         android:fontFamily="@font/digital_7"
         android:text="@string/fit_timer_title"
-        android:textColor="@color/colorSetup"
+        android:textColor="@color/colorAccent"
         android:textSize="50sp"/>
 
     <TextView
@@ -55,7 +57,7 @@
         android:layout_marginLeft="20dp"
         android:fontFamily="@font/digital_7"
         android:text="@string/fit_timer_work"
-        android:textColor="@color/colorSetup"
+        android:textColor="@color/colorAccent"
         android:textSize="50sp"/>
 
     <TextView
@@ -66,17 +68,18 @@
         android:layout_marginLeft="20dp"
         android:fontFamily="@font/digital_7"
         android:text="@string/fit_timer_rest"
-        android:textColor="@color/colorSetup"
+        android:textColor="@color/colorAccent"
         android:textSize="50sp"/>
 
     <TextView
         android:id="@+id/start_button_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="650dp"
+        android:layout_marginBottom="50dp"
         android:fontFamily="@font/digital_7"
-        android:layout_gravity="center_horizontal"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
         android:text="@string/fit_timer_start"
-        android:textColor="@color/colorSetup"
+        android:textColor="@color/colorAccent"
         android:textSize="50sp"/>
-</FrameLayout>
+</RelativeLayout >

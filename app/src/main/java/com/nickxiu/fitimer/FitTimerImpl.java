@@ -24,9 +24,8 @@ import static android.view.MotionEvent.ACTION_MOVE;
 public class FitTimerImpl extends Fragment implements BaseTimerInterface {
     private static final String TAG = "FitTimerImpl";
     private static final int UNIT = 60;
-    private static final int FAST_FORWARD_RATIO = 10;
+    private static final int FAST_FORWARD_RATIO = 1;
 
-    private Context context;
     private ViewGroup viewGroup;
     private TextView minuteTextView;
     private TextView secondTextView;
@@ -54,10 +53,6 @@ public class FitTimerImpl extends Fragment implements BaseTimerInterface {
     private float startingY = 0.0f;
     private int setupWorkMinutes;
     private int setupRestMinutes;
-
-    public void setContext(Context context) {
-        this.context = context;
-    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -182,7 +177,8 @@ public class FitTimerImpl extends Fragment implements BaseTimerInterface {
                     }
                 }).start();
 
-
+        minuteTextView.setText(String.format(Locale.US, "%02d", workTimeSeconds / UNIT));
+        secondTextView.setText(String.format(Locale.US, "%02d", restTimeSeconds / UNIT));
         linkSetupPageEventTrackers();
 
         isSetup = true;

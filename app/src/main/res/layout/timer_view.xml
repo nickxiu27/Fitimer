@@ -8,8 +8,6 @@
     android:orientation="vertical"
     android:background="@color/colorBackground"
     android:foreground="@drawable/fullscreen_ripple"
-    android:clickable="true"
-    android:focusable="true"
     android:weightSum="2">
 
     <TextView
