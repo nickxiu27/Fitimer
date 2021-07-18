@@ -8,7 +8,8 @@
     android:orientation="vertical"
     android:background="@color/colorBackground"
     android:foreground="@drawable/fullscreen_ripple"
-    android:weightSum="2">
+    android:weightSum="2"
+    android:keepScreenOn="true">
 
     <TextView
         android:layout_width="match_parent"

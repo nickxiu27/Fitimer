@@ -2,7 +2,7 @@ package com.nickxiu.fitimer;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.content.Context;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import java.util.Locale;
@@ -25,6 +26,10 @@ public class FitTimerImpl extends Fragment implements BaseTimerInterface {
     private static final String TAG = "FitTimerImpl";
     private static final int UNIT = 60;
     private static final int FAST_FORWARD_RATIO = 1;
+
+    private SoundPool soundPool;
+    private int workStartSound;
+    private int restStartSound;
 
     private ViewGroup viewGroup;
     private TextView minuteTextView;
@@ -72,6 +77,10 @@ public class FitTimerImpl extends Fragment implements BaseTimerInterface {
         workTextView = viewGroup.findViewById(R.id.work_text_view);
         restTextView = viewGroup.findViewById(R.id.rest_text_view);
 
+        soundPool = new SoundPool.Builder().setMaxStreams(2).build();
+        workStartSound = soundPool.load(getActivity(), R.raw.work_timer_start_sound, 1);
+        restStartSound = soundPool.load(getActivity(), R.raw.rest_timer_start_sound, 1);
+
         linkSetupPageEventTrackers();
         return viewGroup;
     }
@@ -86,7 +95,7 @@ public class FitTimerImpl extends Fragment implements BaseTimerInterface {
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                if ((System.currentTimeMillis() - cumulativeStartingTime) / 1000 * FAST_FORWARD_RATIO > workTimeSeconds - currentTextViewSeconds) {
+                if ((System.currentTimeMillis() - cumulativeStartingTime) / 1000 * FAST_FORWARD_RATIO > (isWorkTimer ? workTimeSeconds : restTimeSeconds) - currentTextViewSeconds) {
                     if (currentTextViewSeconds <= 0) {
                         swtichTimer();
                     } else {
@@ -117,16 +126,24 @@ public class FitTimerImpl extends Fragment implements BaseTimerInterface {
         cumulativeStartingTime = 0;
         cumulativeElapsedTime = 0;
 
-        setWorkTimer();
+        if (workTimeSeconds > 0) {
+            setWorkTimer();
+        } else {
+            setRestTimer();
+        }
     }
 
     private void setWorkTimer() {
+        setTextColor(true);
+        soundPool.play(workStartSound, 1, 1, 0, 0, 1);
         currentTextViewSeconds = workTimeSeconds;
         setTextView();
         isWorkTimer = true;
     }
 
     private void setRestTimer() {
+        setTextColor(false);
+        soundPool.play(restStartSound, 1, 1, 0, 0, 1);
         currentTextViewSeconds = restTimeSeconds;
         setTextView();
         isWorkTimer = false;
@@ -134,11 +151,13 @@ public class FitTimerImpl extends Fragment implements BaseTimerInterface {
 
     private void swtichTimer() {
         pause();
-        if (isWorkTimer) {
+        if ((isWorkTimer && restTimeSeconds > 0) || workTimeSeconds == 0) {
             setRestTimer();
         } else {
             setWorkTimer();
         }
+        cumulativeStartingTime = 0;
+        cumulativeElapsedTime = 0;
         start();
     }
 
@@ -282,6 +301,18 @@ public class FitTimerImpl extends Fragment implements BaseTimerInterface {
                 animateToRunning();
             }
         });
+    }
+
+    private void setTextColor(boolean isWorkTimer) {
+        if (isWorkTimer) {
+            int workTimerColor = ContextCompat.getColor(getContext(), R.color.colorPrimary);
+            minuteTextView.setTextColor(workTimerColor);
+            secondTextView.setTextColor(workTimerColor);
+        } else {
+            int restTimerColor = ContextCompat.getColor(getContext(), R.color.colorAccent);
+            minuteTextView.setTextColor(restTimerColor);
+            secondTextView.setTextColor(restTimerColor);
+        }
     }
 
     private void unlinkSetupEventTrackers() {

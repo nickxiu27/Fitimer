@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/fit_timer_view"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:keepScreenOn="true">
 
     <LinearLayout
         android:id="@+id/fit_timer"
@@ -19,18 +20,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="200dp"
-            android:layout_marginLeft="200dp"
+            android:layout_marginRight="20dp"
+            android:layout_gravity="right"
             android:fontFamily="@font/segment_7"
             android:text="@string/fit_timer_work_place_holder"
             android:textColor="@color/colorPrimary"
-            android:textSize="160sp"/>
+            android:textSize="160sp" />
 
         <TextView
             android:id="@+id/second_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
-            android:layout_marginLeft="200dp"
+            android:layout_marginRight="20dp"
+            android:layout_gravity="right"
             android:fontFamily="@font/segment_7"
             android:text="@string/fit_timer_rest_place_holder"
             android:textColor="@color/colorPrimary"
@@ -75,7 +78,7 @@
         android:id="@+id/start_button_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="100dp"
         android:fontFamily="@font/digital_7"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
