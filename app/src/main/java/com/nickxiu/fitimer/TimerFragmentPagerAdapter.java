@@ -38,7 +38,7 @@ public class TimerFragmentPagerAdapter extends FragmentPagerAdapter {
     private void initializeLandingPage() { addFragment(new LandingPage()); }
 
     public void initializeTimer() {
-        timerIndex = addFragment(new TimerImpl());
+        timerIndex = addFragment(new StopwatchImpl());
         hasTimer = true;
     }
 
@@ -68,8 +68,8 @@ public class TimerFragmentPagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         if (fragments.get(position) instanceof LandingPage) {
             return "Add new timer";
-        } else if (fragments.get(position) instanceof TimerImpl) {
-            return "Timer";
+        } else if (fragments.get(position) instanceof StopwatchImpl) {
+            return "Stopwatch";
         } else if (fragments.get(position) instanceof FitTimerImpl) {
             return "Fit timer";
         }

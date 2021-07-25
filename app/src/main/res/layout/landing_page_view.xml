@@ -26,7 +26,7 @@
         android:fontFamily="@font/digital_7"
         android:lineSpacingMultiplier="1.2"
         android:padding="16dp"
-        android:text="Simple Timer"
+        android:text="Stopwatch"
         android:textColor="@color/colorPrimary"
         android:textSize="50dp" />
 

@@ -14,8 +14,8 @@ import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class TimerImpl extends Fragment implements BaseTimerInterface {
-    private static final String TAG = "TimerImpl";
+public class StopwatchImpl extends Fragment implements BaseTimerInterface {
+    private static final String TAG = "StopwatchImpl";
     private static final int UNIT = 60;
 
     private ViewGroup viewGroup;
@@ -44,8 +44,8 @@ public class TimerImpl extends Fragment implements BaseTimerInterface {
                              Bundle savedInstanceState) {
         viewGroup = (ViewGroup) inflater.inflate(
                 R.layout.timer_view, container, false);
-        minuteTextView = viewGroup.findViewById(R.id.minute_text_view);
-        secondTextView = viewGroup.findViewById(R.id.second_text_view);
+        minuteTextView = viewGroup.findViewById(R.id.minute_text_view_setup);
+        secondTextView = viewGroup.findViewById(R.id.second_text_view_setup);
 
         setEventTrackers();
         return viewGroup;

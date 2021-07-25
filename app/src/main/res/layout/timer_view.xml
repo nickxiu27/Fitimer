@@ -14,7 +14,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/minute_text_view"
+        android:id="@+id/minute_text_view_setup"
         android:text="@string/timer_place_holder"
         app:autoSizeMaxTextSize="320sp"
         app:autoSizeMinTextSize="5sp"
@@ -28,7 +28,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/second_text_view"
+        android:id="@+id/second_text_view_setup"
         android:text="@string/timer_place_holder"
         app:autoSizeMaxTextSize="320sp"
         app:autoSizeMinTextSize="5sp"
