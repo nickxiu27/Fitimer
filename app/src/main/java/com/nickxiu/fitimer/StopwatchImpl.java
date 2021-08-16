@@ -44,8 +44,8 @@ public class StopwatchImpl extends Fragment implements BaseTimerInterface {
                              Bundle savedInstanceState) {
         viewGroup = (ViewGroup) inflater.inflate(
                 R.layout.timer_view, container, false);
-        minuteTextView = viewGroup.findViewById(R.id.minute_text_view_setup);
-        secondTextView = viewGroup.findViewById(R.id.second_text_view_setup);
+        minuteTextView = viewGroup.findViewById(R.id.workout_text_view_setup_sec);
+        secondTextView = viewGroup.findViewById(R.id.rest_text_view_setup_sec);
 
         setEventTrackers();
         return viewGroup;

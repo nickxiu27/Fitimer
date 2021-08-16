@@ -1,7 +1,6 @@
 package com.nickxiu.fitimer;
 
 import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
@@ -40,8 +39,10 @@ public class FitTimerImpl extends Fragment implements BaseTimerInterface {
     private ViewGroup viewGroup;
     private View setupView;
     private View runningView;
-    private TextView setupMinuteTextView;
-    private TextView setupSecondTextView;
+    private TextView workoutSetupMinuteTextView;
+    private TextView workoutSetupSecondTextView;
+    private TextView restSetupMinuteTextView;
+    private TextView restSetupSecondTextView;
     private TextView runningMinuteTextView;
     private TextView runningSecondTextView;
     private TextView startTextView;
@@ -64,7 +65,9 @@ public class FitTimerImpl extends Fragment implements BaseTimerInterface {
     // Variables for swipe up/down events during set-up.
     private float startingY = 0.0f;
     private int setupWorkMinutes;
+    private int setupWorkSeconds;
     private int setupRestMinutes;
+    private int setupRestSeconds;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,8 +82,10 @@ public class FitTimerImpl extends Fragment implements BaseTimerInterface {
                 R.layout.fit_timer_view, container, false);
         setupView = viewGroup.findViewById(R.id.fit_timer_view_setup);
         runningView = viewGroup.findViewById(R.id.fit_timer_view_running);
-        setupMinuteTextView = viewGroup.findViewById(R.id.minute_text_view_setup);
-        setupSecondTextView = viewGroup.findViewById(R.id.second_text_view_setup);
+        workoutSetupMinuteTextView = viewGroup.findViewById(R.id.workout_text_view_setup_min);
+        workoutSetupSecondTextView = viewGroup.findViewById(R.id.workout_text_view_setup_sec);
+        restSetupMinuteTextView = viewGroup.findViewById(R.id.rest_text_view_setup_min);
+        restSetupSecondTextView = viewGroup.findViewById(R.id.rest_text_view_setup_sec);
         runningMinuteTextView = viewGroup.findViewById(R.id.minute_text_view_running);
         runningSecondTextView = viewGroup.findViewById(R.id.second_text_view_running);
         startTextView = viewGroup.findViewById(R.id.start_button_text_view);
@@ -129,8 +134,8 @@ public class FitTimerImpl extends Fragment implements BaseTimerInterface {
     public void reset() {
         Log.i(TAG, "reset");
         isRunning = false;
-        workTimeSeconds = Integer.parseInt((String) setupMinuteTextView.getText()) * UNIT;
-        restTimeSeconds = Integer.parseInt((String) setupSecondTextView.getText()) * UNIT;
+        workTimeSeconds = Integer.parseInt((String) workoutSetupMinuteTextView.getText()) * UNIT + Integer.parseInt((String) workoutSetupSecondTextView.getText());
+        restTimeSeconds = Integer.parseInt((String) restSetupMinuteTextView.getText()) * UNIT + Integer.parseInt((String) restSetupSecondTextView.getText());
         cumulativeStartingTime = 0;
         cumulativeElapsedTime = 0;
 
@@ -181,7 +186,7 @@ public class FitTimerImpl extends Fragment implements BaseTimerInterface {
         FrameLayout rootView = viewGroup.findViewById(R.id.fit_timer_view);
 
         // Set up minute digits animation.
-        fromView = viewGroup.findViewById(R.id.minute_text_view_setup);
+        fromView = viewGroup.findViewById(R.id.workout_text_view_setup_sec);
         toView = viewGroup.findViewById(R.id.minute_text_view_running);
         minuteShuttleView = viewGroup.findViewById(R.id.minute_shuttle);
 
@@ -193,7 +198,7 @@ public class FitTimerImpl extends Fragment implements BaseTimerInterface {
         animatorSet = getViewToViewScalingAnimator(animatorSet, rootView, minuteShuttleView, fromRect, toRect);
 
         // Set up second digits animation.
-        fromView = viewGroup.findViewById(R.id.second_text_view_setup);
+        fromView = viewGroup.findViewById(R.id.rest_text_view_setup_sec);
         toView = viewGroup.findViewById(R.id.second_text_view_running);
         secondShuttleView = viewGroup.findViewById(R.id.second_shuttle);
 
@@ -207,8 +212,8 @@ public class FitTimerImpl extends Fragment implements BaseTimerInterface {
         animatorSet.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
-                minuteShuttleView.setText(setupMinuteTextView.getText());
-                secondShuttleView.setText("00");
+                minuteShuttleView.setText(workoutSetupMinuteTextView.getText());
+                secondShuttleView.setText(workoutSetupSecondTextView.getText());
                 setupView.setVisibility(View.GONE);
                 runningView.setVisibility(View.GONE);
                 minuteShuttleView.setVisibility(View.VISIBLE);
@@ -349,22 +354,25 @@ public class FitTimerImpl extends Fragment implements BaseTimerInterface {
     private boolean isValidMinutes(int min) {
         return min >= 0 && min <= 99;
     }
+    private boolean isValidSeconds(int sec) {
+        return sec >= 0 && sec <= 59;
+    }
 
     // TODO: may refactor.
     private void linkSetupPageEventTrackers() {
-        setupMinuteTextView.setOnTouchListener(
+        workoutSetupMinuteTextView.setOnTouchListener(
                 new View.OnTouchListener() {
                     @Override
                     public boolean onTouch(View view, MotionEvent event) {
                         switch (event.getAction()) {
                             case ACTION_DOWN:
                                 startingY = event.getY();
-                                setupWorkMinutes = Integer.parseInt((String) setupMinuteTextView.getText());
+                                setupWorkMinutes = Integer.parseInt((String) workoutSetupMinuteTextView.getText());
                                 break;
                             case ACTION_MOVE:
-                                int movingMinutes = (int) (startingY - event.getY()) / 100;
-                                if (isValidMinutes(setupWorkMinutes + movingMinutes)) {
-                                    setupMinuteTextView.setText(String.format("%02d", setupWorkMinutes + movingMinutes));
+                                int diff = (int) (startingY - event.getY()) / 100;
+                                if (isValidMinutes(setupWorkMinutes + diff)) {
+                                    workoutSetupMinuteTextView.setText(String.format("%02d", setupWorkMinutes + diff));
                                 }
                                 break;
                         }
@@ -372,19 +380,60 @@ public class FitTimerImpl extends Fragment implements BaseTimerInterface {
                     }
                 }
         );
-        setupSecondTextView.setOnTouchListener(
+        workoutSetupSecondTextView.setOnTouchListener(
                 new View.OnTouchListener() {
                     @Override
                     public boolean onTouch(View view, MotionEvent event) {
                         switch (event.getAction()) {
                             case ACTION_DOWN:
                                 startingY = event.getY();
-                                setupRestMinutes = Integer.parseInt((String) setupSecondTextView.getText());
+                                setupWorkSeconds = Integer.parseInt((String) workoutSetupSecondTextView.getText());
                                 break;
                             case ACTION_MOVE:
-                                int movingMinutes = (int) (startingY - event.getY()) / 100;
-                                if (isValidMinutes(setupRestMinutes + movingMinutes)) {
-                                    setupSecondTextView.setText(String.format("%02d", setupRestMinutes + movingMinutes));
+                                int diff = (int) (startingY - event.getY()) / 100;
+                                if (isValidSeconds(setupWorkSeconds + diff)) {
+                                    workoutSetupSecondTextView.setText(String.format("%02d", setupWorkSeconds + diff));
+                                }
+                                break;
+                        }
+                        return true;
+                    }
+                }
+        );
+
+        restSetupMinuteTextView.setOnTouchListener(
+                new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View view, MotionEvent event) {
+                        switch (event.getAction()) {
+                            case ACTION_DOWN:
+                                startingY = event.getY();
+                                setupRestMinutes = Integer.parseInt((String) restSetupMinuteTextView.getText());
+                                break;
+                            case ACTION_MOVE:
+                                int diff = (int) (startingY - event.getY()) / 100;
+                                if (isValidMinutes(setupRestMinutes + diff)) {
+                                    restSetupMinuteTextView.setText(String.format("%02d", setupRestMinutes + diff));
+                                }
+                                break;
+                        }
+                        return true;
+                    }
+                }
+        );
+        restSetupSecondTextView.setOnTouchListener(
+                new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View view, MotionEvent event) {
+                        switch (event.getAction()) {
+                            case ACTION_DOWN:
+                                startingY = event.getY();
+                                setupRestSeconds = Integer.parseInt((String) restSetupSecondTextView.getText());
+                                break;
+                            case ACTION_MOVE:
+                                int diff = (int) (startingY - event.getY()) / 100;
+                                if (isValidSeconds(setupRestSeconds + diff)) {
+                                    restSetupSecondTextView.setText(String.format("%02d", setupRestSeconds + diff));
                                 }
                                 break;
                         }
@@ -415,7 +464,9 @@ public class FitTimerImpl extends Fragment implements BaseTimerInterface {
     }
 
     private void unlinkSetupEventTrackers() {
-        setupMinuteTextView.setOnTouchListener(null);
-        setupSecondTextView.setOnTouchListener(null);
+        workoutSetupMinuteTextView.setOnTouchListener(null);
+        workoutSetupSecondTextView.setOnTouchListener(null);
+        restSetupMinuteTextView.setOnTouchListener(null);
+        restSetupSecondTextView.setOnTouchListener(null);
     }
 }

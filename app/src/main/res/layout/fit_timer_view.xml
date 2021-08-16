@@ -17,29 +17,79 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/minute_text_view_setup"
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="200dp"
+                android:layout_marginTop="220dp"
                 android:layout_marginRight="20dp"
-                android:layout_gravity="right"
-                android:fontFamily="@font/segment_7"
-                android:text="@string/fit_timer_work_place_holder"
-                android:textColor="@color/colorPrimary"
-                android:textSize="160sp" />
+                android:layout_gravity="right">
 
-            <TextView
-                android:id="@+id/second_text_view_setup"
+                <TextView
+                    android:id="@+id/workout_text_view_setup_min"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/segment_7"
+                    android:text="@string/fit_timer_place_holder_00"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="120sp" />
+
+                <TextView
+                    android:id="@+id/workout_text_view_delimiter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/digital_7"
+                    android:text="@string/fit_timer_digit_delimiter"
+                    android:layout_toEndOf="@id/workout_text_view_setup_min"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="120sp" />
+
+                <TextView
+                    android:id="@+id/workout_text_view_setup_sec"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/segment_7"
+                    android:text="@string/fit_timer_place_holder_45"
+                    android:layout_toEndOf="@id/workout_text_view_delimiter"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="120sp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="100dp"
                 android:layout_marginRight="20dp"
-                android:layout_gravity="right"
-                android:fontFamily="@font/segment_7"
-                android:text="@string/fit_timer_rest_place_holder"
-                android:textColor="@color/colorPrimary"
-                android:textSize="160sp"/>
+                android:layout_gravity="right">
+                <TextView
+                    android:id="@+id/rest_text_view_setup_min"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/segment_7"
+                    android:text="@string/fit_timer_place_holder_00"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="120sp" />
+
+                <TextView
+                    android:id="@+id/rest_text_view_delimiter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/digital_7"
+                    android:text="@string/fit_timer_digit_delimiter"
+                    android:layout_toEndOf="@id/rest_text_view_setup_min"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="120sp" />
+
+                <TextView
+                    android:id="@+id/rest_text_view_setup_sec"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/segment_7"
+                    android:text="@string/fit_timer_place_holder_15"
+                    android:layout_toEndOf="@id/rest_text_view_delimiter"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="120sp"/>
+            </RelativeLayout>
         </LinearLayout>
 
         <TextView
@@ -58,7 +108,7 @@
             android:id="@+id/work_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="200dp"
+            android:layout_marginTop="150dp"
             android:layout_marginLeft="20dp"
             android:fontFamily="@font/digital_7"
             android:text="@string/fit_timer_work"
@@ -69,7 +119,7 @@
             android:id="@+id/rest_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="400dp"
+            android:layout_marginTop="390dp"
             android:layout_marginLeft="20dp"
             android:fontFamily="@font/digital_7"
             android:text="@string/fit_timer_rest"
@@ -80,13 +130,13 @@
             android:id="@+id/start_button_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="100dp"
+            android:layout_marginBottom="80dp"
             android:fontFamily="@font/digital_7"
             android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true"
             android:text="@string/fit_timer_start"
             android:textColor="@color/colorAccent"
-            android:textSize="100sp"/>
+            android:textSize="80sp"/>
     </RelativeLayout>
 
     <LinearLayout
@@ -134,11 +184,12 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/segment_7"
         android:gravity="center"
-        android:text="@string/fit_timer_work_place_holder"
+        android:text="@string/fit_timer_place_holder_45"
         android:textColor="@color/colorPrimary"
         app:autoSizeMaxTextSize="320sp"
         app:autoSizeMinTextSize="160sp"
-        app:autoSizeTextType="uniform"/>
+        app:autoSizeTextType="uniform"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/second_shuttle"
@@ -146,9 +197,10 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/segment_7"
         android:gravity="center"
-        android:text="@string/fit_timer_work_place_holder"
+        android:text="@string/fit_timer_place_holder_45"
         android:textColor="@color/colorPrimary"
         app:autoSizeMaxTextSize="320sp"
         app:autoSizeMinTextSize="160sp"
-        app:autoSizeTextType="uniform"/>
+        app:autoSizeTextType="uniform"
+        android:visibility="gone"/>
 </FrameLayout>

@@ -15,7 +15,7 @@
         android:padding="16dp"
         android:text="I need a"
         android:textColor="@color/colorAccent"
-        android:textSize="100dp" />
+        android:textSize="110dp" />
 
     <TextView
         android:id="@+id/landing_page_timer_button"
@@ -28,7 +28,7 @@
         android:padding="16dp"
         android:text="Stopwatch"
         android:textColor="@color/colorPrimary"
-        android:textSize="50dp" />
+        android:textSize="80dp" />
 
     <TextView
         android:id="@+id/landing_page_fit_timer_button"
@@ -41,5 +41,5 @@
         android:padding="16dp"
         android:text="Fit Timer"
         android:textColor="@color/colorPrimary"
-        android:textSize="50dp" />
+        android:textSize="80dp" />
 </RelativeLayout>
